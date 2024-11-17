@@ -1,5 +1,8 @@
 package com.SupportHub.demo.repositories;
 
-public class AdminRepository {
-    
+import org.springframework.data.jpa.repository.JpaRepository;
+import com.SupportHub.demo.models.Admin;
+
+public interface AdminRepository extends JpaRepository<Admin, Long> {
+
 }
