@@ -1,9 +1,9 @@
-package com.example.demo.mappers;
+package com.SupportHub.demo.mappers;
 
 import org.springframework.stereotype.Component;
-import com.example.demo.models.Business;
-import com.example.demo.dtos.OutputDTOs.BusinessOutputDTO;
-import com.example.demo.dtos.InputDTOs.BusinessInputDTO;
+import com.SupportHub.demo.models.Business;
+import com.SupportHub.demo.dtos.OutputDTOs.BusinessOutputDTO;
+import com.SupportHub.demo.dtos.InputDTOs.BusinessInputDTO;
 
 @Component
 public class BusinessMapper {
