@@ -1,4 +1,4 @@
-package com.example.demo.dtos.InputDTOs;
+package com.SupportHub.demo.dtos.InputDTOs;
 
 public class AnswerInputDTO {
     private Long questionId;
