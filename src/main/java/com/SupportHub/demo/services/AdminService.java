@@ -74,7 +74,7 @@ public class AdminService {
         if (adminRepository.existsById(adminId)) {
             adminRepository.deleteById(adminId);
         } else {
-            throw new ResourceNotFoundException("Admin not found with ID: " + adminId);
+            throw new ResourceNotFoundException("Admin not found with ID : " + adminId);
         }
     }
 }
