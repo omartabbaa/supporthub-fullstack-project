@@ -1,4 +1,4 @@
-package com.SupportHub.demo.services;
+package com.SupportHub.demo;  // Changed from com.SupportHub.demo.services
 
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +11,7 @@ import com.SupportHub.demo.dtos.InputDTOs.DepartmentInputDTO;
 import com.SupportHub.demo.dtos.OutputDTOs.DepartmentOutputDTO;
 import com.SupportHub.demo.mappers.DepartmentMapper;
 import com.SupportHub.demo.models.Business;
-import com.SupportHub.demo.models.Department; // Corrected import statement
+import com.SupportHub.demo.models.Department;
 import com.SupportHub.demo.repositories.BusinessRepository;
 import com.SupportHub.demo.repositories.DepartmentRepository;
 
@@ -34,15 +34,14 @@ public class DepartmentService {
     }
 
     public Optional<DepartmentOutputDTO> findDepartmentById(Long departmentId) {
-        return departmentRepository.findById(departmentId).map(departmentMapper::toDto);
+        return departmentRepository.findById(departmentId).map(department -> departmentMapper.toDto(department));
     }
 
-      public List<DepartmentOutputDTO> findAllDepartments() {
+    public List<DepartmentOutputDTO> findAllDepartments() {
         return departmentRepository.findAll().stream()
-                .map(departmentMapper::toDto)
+                .map(department -> departmentMapper.toDto(department))
                 .collect(Collectors.toList());
     }
-
 
     public DepartmentOutputDTO createDepartment(DepartmentInputDTO departmentInputDTO) {
         Business business = businessRepository.findById(departmentInputDTO.getBusinessId())
