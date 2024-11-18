@@ -1,11 +1,20 @@
-package com.SupportHub.demo.dtos.InputDTOs;
+package com.SupportHub.demo.dtos.OutputDTOs;
 
-public class DepartmentInputDTO {
+public class DepartmentOutputDTO {
+    private Long departmentId;
     private String departmentName;
     private String description;
     private Long businessId;
 
     // Getters and Setters
+    public Long getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
+    }
+
     public String getDepartmentName() {
         return departmentName;
     }
