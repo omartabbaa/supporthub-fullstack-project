@@ -1,4 +1,4 @@
-package com.SupportHub.demo.services;
+package com.SupportHub.demo;
 
 import com.SupportHub.demo.dtos.InputDTOs.QuestionInputDTO;
 import com.SupportHub.demo.dtos.OutputDTOs.QuestionOutputDTO;

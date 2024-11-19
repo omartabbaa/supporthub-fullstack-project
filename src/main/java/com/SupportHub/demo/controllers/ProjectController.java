@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.SupportHub.demo.dtos.InputDTOs.ProjectInputDTO;
 import com.SupportHub.demo.dtos.OutputDTOs.ProjectOutputDTO;
-import com.SupportHub.demo.services.ProjectService;
+import com.SupportHub.demo.ProjectService;
 
 @RestController
 @RequestMapping("/api/projects")
