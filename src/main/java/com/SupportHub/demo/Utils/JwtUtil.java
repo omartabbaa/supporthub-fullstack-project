@@ -1,4 +1,4 @@
-package com.example.demo.Utils;
+package com.SupportHub.demo.Utils;
 
 import java.security.Key;
 import java.util.Date;
@@ -10,7 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.models.CustomUserDetails;
+import com.SupportHub.demo.models.CustomUserDetails;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

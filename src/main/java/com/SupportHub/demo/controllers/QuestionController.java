@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.SupportHub.demo.dtos.InputDTOs.QuestionInputDTO;
 import com.SupportHub.demo.dtos.OutputDTOs.QuestionOutputDTO;
-import com.SupportHub.demo.QuestionService;
+import com.SupportHub.demo.services.QuestionService;
 
 import java.util.List;
 import java.util.Optional;

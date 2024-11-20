@@ -1,4 +1,4 @@
-package com.example.demo.filter;
+package com.SupportHub.demo.filter;
 
 import java.io.IOException;
 
@@ -9,8 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.example.demo.services.AuthenticationService;
-import com.example.demo.Utils.JwtUtil;
+import com.SupportHub.demo.services.AuthenticationService;
+import com.SupportHub.demo.Utils.JwtUtil;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -1,4 +1,4 @@
-package com.SupportHub.demo;
+package com.SupportHub.demo.services;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,15 +13,14 @@ import org.springframework.stereotype.Service;
 
 import com.SupportHub.demo.models.CustomUserDetails;
 import com.SupportHub.demo.models.User;
-import com.SupportHub.demo.services.UserService;
 
 @Service
 @Primary
 public class AuthenticationService implements UserDetailsService {
 
-    private final UserService userService;
+    private final com.SupportHub.demo.services.UserService userService;
 
-    public AuthenticationService(UserService userService) {
+    public AuthenticationService(com.SupportHub.demo.services.UserService userService) {
         this.userService = userService;
     }
 

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.SupportHub.demo.dtos.InputDTOs.BusinessInputDTO;
 import com.SupportHub.demo.dtos.OutputDTOs.BusinessOutputDTO;
-import com.SupportHub.demo.BusinessService;
+import com.SupportHub.demo.services.BusinessService;
 
 @RestController
 @RequestMapping("/api/businesses")

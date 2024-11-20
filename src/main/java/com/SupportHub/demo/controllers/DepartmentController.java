@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.SupportHub.demo.dtos.InputDTOs.DepartmentInputDTO;
 import com.SupportHub.demo.dtos.OutputDTOs.DepartmentOutputDTO;
-import com.SupportHub.demo.DepartmentService;
+import com.SupportHub.demo.services.DepartmentService;
 
 @RestController
 @RequestMapping("/api/departments")

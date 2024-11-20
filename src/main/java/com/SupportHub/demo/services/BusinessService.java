@@ -1,4 +1,4 @@
-package com.SupportHub.demo;
+package com.SupportHub.demo.services;
 
 import java.util.List;
 import java.util.Optional;
