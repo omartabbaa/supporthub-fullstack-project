@@ -53,6 +53,7 @@ public class UserController {
         UserOutputDTO userOutputDTO = userService.getUserMapper().toDto(createdUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(userOutputDTO);
     }
+    
 
     // PUT /api/users/{userId}
     @PutMapping("/{userId}")
