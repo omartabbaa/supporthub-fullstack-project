@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.SupportHub.demo.dtos.InputDTOs.UserInputDTO;
 import com.SupportHub.demo.dtos.OutputDTOs.UserOutputDTO;
+import com.SupportHub.demo.models.User;
 import com.SupportHub.demo.services.UserService;
 
 @RestController
@@ -48,8 +49,9 @@ public class UserController {
     // POST /api/users
     @PostMapping
     public ResponseEntity<UserOutputDTO> createUser(@RequestBody UserInputDTO userInputDTO) {
-        UserOutputDTO createdUser = userService.createUser(userInputDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+        User createdUser = userService.createUser(userInputDTO);
+        UserOutputDTO userOutputDTO = userService.getUserMapper().toDto(createdUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userOutputDTO);
     }
 
     // PUT /api/users/{userId}
