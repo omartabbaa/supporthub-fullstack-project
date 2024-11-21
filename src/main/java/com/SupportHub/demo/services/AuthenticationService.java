@@ -18,10 +18,11 @@ import com.SupportHub.demo.repositories.AdminRepository;
 @Service
 @Primary
 public class AuthenticationService implements UserDetailsService {
-    private final UserService userService;
+
+    private final com.SupportHub.demo.services.UserService userService;
     private final AdminRepository adminRepository;
 
-    public AuthenticationService(UserService userService, AdminRepository adminRepository) {
+    public AuthenticationService(com.SupportHub.demo.services.UserService userService, AdminRepository adminRepository) {
         this.userService = userService;
         this.adminRepository = adminRepository;
     }

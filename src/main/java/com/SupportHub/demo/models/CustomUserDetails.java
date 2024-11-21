@@ -2,7 +2,6 @@ package com.SupportHub.demo.models;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,14 +25,20 @@ public class CustomUserDetails implements UserDetails {
     }
     
     public Long getBusinessId() {
-        if (user.getRole() != null && user.getRole().contains("ADMIN")) {
-            return Optional.ofNullable(getAdminForUser(user))
-                    .map(Admin::getBusiness)
-                    .map(Business::getBusinessId)
-                    .orElse(null);
+        String role = user.getRole();
+        System.out.println("User role: " + role);
+        
+        if ("ROLE_ADMIN".equals(role)) {
+            Admin admin = adminRepository.findByUser_UserId(user.getUserId());
+            System.out.println("Found admin: " + (admin != null));
+            if (admin != null && admin.getBusiness() != null) {
+                System.out.println("Found business: " + admin.getBusiness().getBusinessId());
+                return admin.getBusiness().getBusinessId();
+            }
         }
         return null;
     }
+
 
     private Admin getAdminForUser(User user) {
         return adminRepository.findByUser_UserId(user.getUserId());

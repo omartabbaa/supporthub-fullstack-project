@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 import com.SupportHub.demo.dtos.InputDTOs.BusinessInputDTO;
 import com.SupportHub.demo.dtos.InputDTOs.UserInputDTO;
@@ -28,26 +31,34 @@ public class SignUpController {
     @Autowired
     private UserMapper userMapper;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Transactional
     @PostMapping("/signup")
-    public ResponseEntity<?> signUp(@RequestBody SignupRequest signUpRequest) {
+    public ResponseEntity<?> signup(@RequestBody SignupRequest signUpRequest) {
         try {
             UserInputDTO userInputDTO = signUpRequest.getUser();
             BusinessInputDTO businessInputDTO = signUpRequest.getBusiness();
 
+            // Add ROLE_ prefix if not present
+            if ("ADMIN".equals(userInputDTO.getRole())) {
+                userInputDTO.setRole("ROLE_" + userInputDTO.getRole());
+            }
+
             // Create user with encrypted password
             User user = userService.createUser(userInputDTO);
 
-  // In SignUpController
-if ("ADMIN".equals(user.getRole()) || "SUPPORT_AGENT".equals(user.getRole())) {
-    if (businessInputDTO == null) {
-        return ResponseEntity.badRequest().body("Business information is required for this role.");
-    }
-    businessService.createBusinessWithAdmin(businessInputDTO, user);
-}
+            if ("ROLE_ADMIN".equals(user.getRole())) {
+                if (businessInputDTO == null) {
+                    return ResponseEntity.badRequest().body("Business information is required for this role.");
+                }
+                businessService.createBusinessWithAdmin(businessInputDTO, user);
+                entityManager.flush();
+            }
 
             UserOutputDTO userOutputDTO = userMapper.toDto(user);
             return ResponseEntity.ok(userOutputDTO);
-
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error during signup: " + e.getMessage());
         }
