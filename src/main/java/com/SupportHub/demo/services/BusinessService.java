@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import com.SupportHub.demo.dtos.InputDTOs.BusinessInputDTO;
@@ -40,23 +40,33 @@ public class BusinessService {
         this.adminRepository = adminRepository;
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional
     public void createBusinessWithAdmin(BusinessInputDTO businessInputDTO, User user) {
-        // Convert DTO to entity
-        Business business = businessMapper.toEntity(businessInputDTO);
-    
-        // Save the business
-        Business savedBusiness = businessRepository.save(business);
-        entityManager.flush();
-    
-        // Create an Admin entity linking the user and the business
-        Admin admin = new Admin();
-        admin.setUser(user);
-        admin.setBusiness(savedBusiness);
-    
-        // Save the admin
-        adminRepository.save(admin);
-        entityManager.flush();
+        try {
+            System.out.println("Starting business creation for user: " + user.getEmail());
+            
+            // Create and save business
+            Business business = businessMapper.toEntity(businessInputDTO);
+            System.out.println("Mapped business entity: " + business.getName());
+            
+            Business savedBusiness = businessRepository.save(business);
+            System.out.println("Saved business with ID: " + savedBusiness.getBusinessId());
+            
+            // Create and save admin
+            Admin admin = new Admin();
+            admin.setUser(user);
+            admin.setBusiness(savedBusiness);
+            Admin savedAdmin = adminRepository.save(admin);
+            System.out.println("Saved admin with ID: " + savedAdmin.getAdminId());
+            
+            // Ensure changes are persisted
+            entityManager.flush();
+            System.out.println("Successfully completed business and admin creation");
+        } catch (Exception e) {
+            System.err.println("Error in createBusinessWithAdmin: " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Failed to create business with admin: " + e.getMessage());
+        }
     }
 
     // Other methods remain the same
