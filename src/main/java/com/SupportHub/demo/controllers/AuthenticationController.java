@@ -58,14 +58,12 @@ public class AuthenticationController {
         } catch (BadCredentialsException e) {
             logger.warn("Authentication failed: Incorrect username or password", e);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect username or password");
+        } catch (IllegalArgumentException | NullPointerException e) {
+            logger.error("An error occurred in authentication due to invalid data: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Authentication failed due to invalid data");
         } catch (Exception e) {
-            if (e instanceof IllegalArgumentException || e instanceof NullPointerException) {
-                logger.error("An error occurred in authentication due to invalid data: ", e);
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Authentication failed due to invalid data");
-            } else {
-                logger.error("Authentication failed due to server error: ", e);
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Authentication failed due to server error");
-            }
+            logger.error("Authentication failed due to server error: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Authentication failed due to server error");
         }
     }
 

@@ -1,19 +1,20 @@
 package com.SupportHub.demo.services;
 
-import com.SupportHub.demo.models.Admin;
-import com.SupportHub.demo.repositories.AdminRepository;
-import com.SupportHub.demo.repositories.UserRepository;
-import com.SupportHub.demo.repositories.BusinessRepository;
-import com.SupportHub.demo.dtos.OutputDTOs.AdminOutputDTO;
-import com.SupportHub.demo.dtos.InputDTOs.AdminInputDTO;
-import com.SupportHub.demo.mappers.AdminMapper;
-import com.SupportHub.demo.exceptions.ResourceNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.SupportHub.demo.dtos.InputDTOs.AdminInputDTO;
+import com.SupportHub.demo.dtos.OutputDTOs.AdminOutputDTO;
+import com.SupportHub.demo.exceptions.ResourceNotFoundException;
+import com.SupportHub.demo.mappers.AdminMapper;
+import com.SupportHub.demo.models.Admin;
+import com.SupportHub.demo.repositories.AdminRepository;
+import com.SupportHub.demo.repositories.BusinessRepository;
+import com.SupportHub.demo.repositories.UserRepository;
 
 @Service
 public class AdminService {
@@ -76,5 +77,11 @@ public class AdminService {
         } else {
             throw new ResourceNotFoundException("Admin not found with ID : " + adminId);
         }
+    }
+
+    // Find admin by user ID
+    public Optional<AdminOutputDTO> findAdminByUserId(Long userId) {
+        return Optional.ofNullable(adminRepository.findByUser_UserId(userId))
+                .map(adminMapper::toDto);
     }
 }

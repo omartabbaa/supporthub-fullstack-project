@@ -5,6 +5,7 @@ public class UserOutputDTO {
     private String name;
     private String email;
     private String role;
+  
 
     // Getters and Setters
     public Long getUserId() {
@@ -38,4 +39,6 @@ public class UserOutputDTO {
     public void setRole(String role) {
         this.role = role;
     }
+
+
 }

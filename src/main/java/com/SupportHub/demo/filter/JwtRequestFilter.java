@@ -32,6 +32,16 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response, 
                                     @NonNull FilterChain filterChain) 
                                     throws ServletException, IOException {
+
+        String requestPath = request.getServletPath();
+        String method = request.getMethod();
+
+        // Skip JWT authentication for these endpoints
+        if (isExcludedEndpoint(requestPath, method)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         final String authorizationHeader = request.getHeader("Authorization");
         String username = null;
         String jwt = null;
@@ -58,5 +68,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         // Continue the filter chain
         filterChain.doFilter(request, response);
+    }
+
+    // Helper method to determine if the endpoint should be excluded from filtering
+    private boolean isExcludedEndpoint(String requestPath, String method) {
+        return (requestPath.equals("/authenticate") 
+                || (requestPath.equals("/api/users") && method.equalsIgnoreCase("POST")));
     }
 }

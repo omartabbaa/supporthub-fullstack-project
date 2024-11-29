@@ -2,9 +2,7 @@ package com.SupportHub.demo.models;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,27 +14,33 @@ public class CustomUserDetails implements UserDetails {
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
     private final User user;
+    private final AdminRepository adminRepository;
     
-    public CustomUserDetails(User user) {
+    public CustomUserDetails(User user, AdminRepository adminRepository) {
         this.name = user.getEmail();
         this.password = user.getPassword();
-        this.authorities = List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
+        this.authorities = List.of(new SimpleGrantedAuthority(user.getRole()));
         this.user = user;
+        this.adminRepository = adminRepository;
     }
-@Autowired
-private AdminRepository adminRepository;
     
     public Long getBusinessId() {
-        if ("ADMIN".equalsIgnoreCase(user.getRole())) {
-            return Optional.ofNullable(getAdminForUser(user))
-                    .map(Admin::getBusiness)
-                    .map(Business::getBusinessId)
-                    .orElse(null);
+        String role = user.getRole();
+        System.out.println("User role: " + role);
+        
+        if ("ROLE_ADMIN".equals(role)) {
+            Admin admin = adminRepository.findByUser_UserId(user.getUserId());
+            System.out.println("Found admin: " + (admin != null));
+            if (admin != null && admin.getBusiness() != null) {
+                System.out.println("Found business: " + admin.getBusiness().getBusinessId());
+                return admin.getBusiness().getBusinessId();
+            }
         }
         return null;
     }
-        private Admin getAdminForUser(User user) {
-        // Assuming AdminRepository is injected or instantiated correctly
+
+
+    private Admin getAdminForUser(User user) {
         return adminRepository.findByUser_UserId(user.getUserId());
     }
 
@@ -55,7 +59,6 @@ private AdminRepository adminRepository;
         return authorities;
     }
 
-    // Other methods remain unchanged
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -80,7 +83,6 @@ private AdminRepository adminRepository;
         return user;
     }
 
-    // Setters (if needed)
     public void setName(String name) {
         this.name = name;
     }

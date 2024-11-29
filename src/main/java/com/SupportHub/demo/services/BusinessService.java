@@ -6,25 +6,60 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.SupportHub.demo.dtos.InputDTOs.BusinessInputDTO;
 import com.SupportHub.demo.dtos.OutputDTOs.BusinessOutputDTO;
 import com.SupportHub.demo.mappers.BusinessMapper;
+import com.SupportHub.demo.models.Admin;
 import com.SupportHub.demo.models.Business;
+import com.SupportHub.demo.models.User;
+import com.SupportHub.demo.repositories.AdminRepository;
 import com.SupportHub.demo.repositories.BusinessRepository;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 @Service
 public class BusinessService {
 
     private final BusinessRepository businessRepository;
     private final BusinessMapper businessMapper;
+    private final AdminRepository adminRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
-    public BusinessService(BusinessRepository businessRepository, BusinessMapper businessMapper) {
+    public BusinessService(BusinessRepository businessRepository,
+                           BusinessMapper businessMapper,
+                           AdminRepository adminRepository) {
         this.businessRepository = businessRepository;
         this.businessMapper = businessMapper;
+        this.adminRepository = adminRepository;
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void createBusinessWithAdmin(BusinessInputDTO businessInputDTO, User user) {
+        // Convert DTO to entity
+        Business business = businessMapper.toEntity(businessInputDTO);
+    
+        // Save the business
+        Business savedBusiness = businessRepository.save(business);
+        entityManager.flush();
+    
+        // Create an Admin entity linking the user and the business
+        Admin admin = new Admin();
+        admin.setUser(user);
+        admin.setBusiness(savedBusiness);
+    
+        // Save the admin
+        adminRepository.save(admin);
+        entityManager.flush();
+    }
+
+    // Other methods remain the same
     public Optional<BusinessOutputDTO> findBusinessById(Long businessId) {
         return businessRepository.findById(businessId).map(businessMapper::toDto);
     }
@@ -58,5 +93,4 @@ public class BusinessService {
             throw new RuntimeException("Business not found with ID: " + businessId);
         }
     }
-
 }
