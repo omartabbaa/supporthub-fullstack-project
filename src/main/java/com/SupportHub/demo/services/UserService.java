@@ -1,4 +1,4 @@
-package com.SupportHub.demo;
+package com.SupportHub.demo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

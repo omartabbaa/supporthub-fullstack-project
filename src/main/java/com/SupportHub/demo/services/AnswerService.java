@@ -1,4 +1,4 @@
-package com.SupportHub.demo;
+package com.SupportHub.demo.services;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.SupportHub.demo.dtos.InputDTOs.AnswerInputDTO;
 import com.SupportHub.demo.dtos.OutputDTOs.AnswerOutputDTO;
+import com.SupportHub.demo.exceptions.ResourceNotFoundException;
 import com.SupportHub.demo.mappers.AnswerMapper;
 import com.SupportHub.demo.models.Answer;
 import com.SupportHub.demo.models.Question;
@@ -46,7 +47,7 @@ public class AnswerService {
 
     public AnswerOutputDTO createAnswer(AnswerInputDTO answerInputDTO) {
         Question question = questionRepository.findById(answerInputDTO.getQuestionId())
-                .orElseThrow(() -> new RuntimeException("Question not found with ID: " + answerInputDTO.getQuestionId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Question not found with ID: " + answerInputDTO.getQuestionId()));
         
         // Assuming you have a way to get the current user, replace this with your actual implementation
         User currentUser = getCurrentUser();
@@ -62,14 +63,14 @@ public class AnswerService {
                     answer.setAnswerText(answerInputDTO.getAnswerText());
                     // Update other fields as necessary
                     return answerMapper.toDto(answerRepository.save(answer));
-                }).orElseThrow(() -> new RuntimeException("Answer not found with ID: " + answerId));
+                }).orElseThrow(() -> new ResourceNotFoundException("Answer not found with ID: " + answerId));
     }
 
     public void deleteAnswerById(Long answerId) {
         if (answerRepository.existsById(answerId)) {
             answerRepository.deleteById(answerId);
         } else {
-            throw new RuntimeException("Answer not found with ID: " + answerId);
+            throw new ResourceNotFoundException("Answer not found with ID: " + answerId);
         }
     }
 
@@ -78,6 +79,6 @@ public class AnswerService {
         // For demonstration purposes, we'll return the first user in the database
         // In a real application, this should be replaced with proper user authentication logic
         return userRepository.findAll().stream().findFirst()
-                .orElseThrow(() -> new RuntimeException("No users found in the database"));
+                .orElseThrow(() -> new ResourceNotFoundException("No users found in the database"));
     }
 }

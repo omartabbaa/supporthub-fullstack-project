@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.SupportHub.demo.dtos.InputDTOs.UserInputDTO;
 import com.SupportHub.demo.dtos.OutputDTOs.UserOutputDTO;
-import com.SupportHub.demo.UserService;
+import com.SupportHub.demo.services.UserService;
 
 @RestController
 @RequestMapping("/api/users")

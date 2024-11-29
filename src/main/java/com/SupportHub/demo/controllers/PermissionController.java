@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.SupportHub.demo.dtos.InputDTOs.PermissionInputDTO;
 import com.SupportHub.demo.dtos.OutputDTOs.PermissionsOutputDTO;
-import com.SupportHub.demo.PermissionsService;
+import com.SupportHub.demo.services.PermissionsService;
 
 
 @RestController
