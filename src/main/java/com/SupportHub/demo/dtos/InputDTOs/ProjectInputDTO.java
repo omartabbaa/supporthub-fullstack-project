@@ -1,12 +1,25 @@
 package com.SupportHub.demo.dtos.InputDTOs;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class ProjectInputDTO {
 
-    private String name; // Name of the project
-    private String description; // Brief description of the project
-    private String image; // Optional image for the project
-    private Double averageResponseTime; // Average time for responses
-    private Long departmentId; // Foreign key referencing the department (input)
+    @NotBlank(message = "Project name cannot be blank")
+
+    private String name;
+
+  
+    private String description;
+
+    private String image;
+
+    private Double averageResponseTime;
+
+    @NotNull(message = "Department ID is required")
+    private Long departmentId;
+
+    
 
     // Getters and Setters
     public String getName() {

@@ -3,7 +3,7 @@ package com.SupportHub.demo.dtos.InputDTOs;
 public class BusinessInputDTO {
     private String name;
     private String description;
-    private String logo; // Ensure this line is correct
+    private String logo; 
 
     // Getters and Setters
     public String getName() {

@@ -1,7 +1,20 @@
 package com.SupportHub.demo.dtos.InputDTOs;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+
 public class QuestionInputDTO {
+
+    @NotBlank(message = "Question title cannot be blank")
+    
     private String questionTitle;
+
+    @NotBlank(message = "Question text cannot be blank")
+   
     private String questionText;
+
+    @NotNull(message = "Project ID is required")
     private Long projectId;
 
     // Getters and Setters
