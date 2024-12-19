@@ -104,6 +104,12 @@
             <artifactId>byte-buddy</artifactId>
             <version>1.14.8</version>
         </dependency>
+
+        <!-- Jakarta Validation -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
